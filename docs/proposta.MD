@@ -6,7 +6,7 @@ A proposta deve apresentar uma ideia simples, clara e viável para ser desenvolv
 
 ## 1. Nome provisório do jogo
 
-Escreva aqui o nome provisório do jogo.
+AstroRun
 
 Exemplo:
 
@@ -16,8 +16,8 @@ Exemplo:
 
 Liste os integrantes do grupo.
 
-- Nome 1:
-- Nome 2:
+- Nome 1: Lucas Alves Rabelo
+- Nome 2: João Paulo de Freitas Fadul
 - Nome 3:
 - Nome 4:
 
@@ -42,7 +42,7 @@ Exemplos:
 
 Tipo escolhido pelo grupo:
 
-> Escreva aqui.
+> Nave desviando de meteoros.
 
 ## 4. Descrição geral do jogo
 
@@ -57,7 +57,7 @@ Procure responder:
 
 Descrição:
 
-> Escreva aqui.
+> O jogador controla uma nave espacial posicionada na parte inferior da tela. Meteoros surgem aleatoriamente no topo e descem em direção à nave. O jogador deve desviar dos meteoros movendo a nave em todas as direções. Itens de bônus aparecem esporadicamente e podem ser coletados para pontuação extra. A dificuldade aumenta com o tempo, com meteoros mais rápidos e mais frequentes.
 
 ## 5. Objetivo do jogador
 
@@ -75,7 +75,7 @@ Exemplos:
 
 Objetivo:
 
-> Escreva aqui.
+> Sobreviver pelo maior tempo possível desviando dos meteoros, acumular a maior pontuação e superar o recorde salvo no jogo.
 
 ## 6. Regras principais
 
@@ -91,11 +91,11 @@ Exemplo:
 
 Regras do grupo:
 
-- Regra 1:
-- Regra 2:
-- Regra 3:
-- Regra 4:
-- Regra 5:
+- Regra 1: O jogador começa com 3 vidas.
+- Regra 2: Cada segundo sobrevivido adiciona pontos ao placar.
+- Regra 3: Colidir com um meteoro remove 1 vida.
+- Regra 4: Coletar um item de bônus concede pontos extras.
+- Regra 5: A cada 15 segundos, a velocidade e a frequência dos meteoros aumentam.
 
 ## 7. Condição de vitória
 
@@ -111,7 +111,7 @@ Exemplos:
 
 Condição de vitória:
 
-> Escreva aqui.
+> Não há condição de vitória absoluta. O jogo é de sobrevivência contínua. O critério de êxito é superar o próprio recorde salvo no arquivo do jogo, o que é registrado ao final de cada partida.
 
 ## 8. Condição de derrota ou encerramento
 
@@ -127,7 +127,7 @@ Exemplos:
 
 Condição de derrota ou encerramento:
 
-> Escreva aqui.
+> A partida encerra quando o jogador perde as 3 vidas ao colidir com meteoros. Uma tela de Game Over é exibida com a pontuação final e o recorde anterior. Caso a pontuação atual seja maior, o arquivo de recorde é atualizado.
 
 ## 9. Elementos previstos no jogo
 
@@ -141,7 +141,7 @@ Exemplo:
 
 Descrição:
 
-> Escreva aqui.
+> Uma nave espacial controlada pelas setas do teclado, que se move nas quatro direções dentro dos limites da tela.
 
 ## Obstáculos, inimigos ou desafios
 
@@ -151,7 +151,7 @@ Exemplo:
 
 Descrição:
 
-> Escreva aqui.
+> Meteoros surgem continuamente no topo da tela em posições aleatórias e descem em direção à nave em velocidades e tamanhos variados.
 
 ## Itens, alvos ou objetos de interação
 
@@ -161,7 +161,7 @@ Exemplo:
 
 Descrição:
 
-> Escreva aqui.
+> Meteoros surgem continuamente na parte superior da tela e descem em direção à nave do jogador. Itens de bônus em formato de estrela aparecem aleatoriamente durante a partida e aumentam a pontuação quando a nave passa sobre eles.
 
 ## Pontuação, vidas, tempo ou progresso
 
@@ -171,7 +171,7 @@ Exemplo:
 
 Descrição:
 
-> Escreva aqui.
+> O jogador começa com 3 vidas. Cada segundo sobrevivido adiciona pontos ao placar. Coletar um item de bônus concede pontos extras. Colidir com um meteoro reduz uma vida. A dificuldade aumenta a cada 15 segundos, com meteoros mais rápidos e mais frequentes.
 
 ## 10. Controles previstos
 
@@ -188,9 +188,12 @@ Exemplo:
 
 Controles do grupo:
 
-- Tecla/comando:
-- Tecla/comando:
-- Tecla/comando:
+- Tecla/comando: Seta para esquerda — mover a nave para a esquerda
+- Tecla/comando: Seta para direita — mover a nave para a direita
+- Tecla/comando: Seta para cima — mover a nave para frente
+- Tecla/comando: Seta para baixo — mover a nave para trás
+- Tecla/comando: ENTER ou ESPAÇO — iniciar o jogo ou reiniciar após encerramento
+- Tecla/comando: ESC — sair do jogo
 
 ## 11. Organização inicial do código
 
@@ -206,7 +209,15 @@ Exemplo:
 
 Organização planejada:
 
-> Escreva aqui.
+- `main.py`: ponto de entrada do jogo, responsável por inicializar o Pygame e chamar o loop principal;
+- `src/game.py`: contém o loop principal e o controle dos estados do jogo, como menu, rodando e game over;
+- `src/player.py`: contém a lógica de movimentação e controle da nave do jogador;
+- `src/obstacles.py`: responsável pela geração e movimentação dos meteoros;
+- `src/items.py`: responsável pelos itens de bônus, incluindo geração e coleta;
+- `src/utils.py`: contém funções auxiliares de lógica pura, como detecção de colisão e cálculo de pontuação;
+- `src/arquivos.py`: contém as funções de leitura e escrita do arquivo de recorde;
+- `src/config.py`: armazena configurações globais como dimensões da tela, cores e parâmetros de dificuldade;
+- `tests/test_logica.py`: contém os testes unitários das funções de lógica do jogo.
 
 
 ## 12. Recursos externos previstos
@@ -222,7 +233,9 @@ Exemplo:
 
 Recursos previstos:
 
-> Escreva aqui.
+- Fonte personalizada obtida de banco gratuito para exibição do placar e das telas de menu e game over;
+- Sons simples de colisão e de coleta de item obtidos de banco de áudio com licença livre;
+- Tutoriais de Pygame utilizados apenas como referência para estruturação do loop principal e tratamento de eventos.
 
 Caso não pretenda utilizar recursos externos, escreva:
 
@@ -245,9 +258,9 @@ Exemplos:
 
 Dificuldades previstas:
 
-- Dificuldade 1:
-- Dificuldade 2:
-- Dificuldade 3:
+- Dificuldade 1: Detecção de colisão entre a nave e múltiplos meteoros em cada frame do loop principal.
+- Dificuldade 2: Controle de dificuldade progressiva de forma equilibrada, sem tornar o jogo injogável rapidamente.
+- Dificuldade 3: Leitura e escrita do arquivo de recorde com tratamento correto para o caso em que o arquivo ainda não existe.
 
 ## 14. Escopo mínimo para a entrega final
 
@@ -261,7 +274,7 @@ Exemplo:
 
 Escopo mínimo:
 
-> Escreva aqui.
+> A versão mínima do jogo terá uma nave controlada pelo teclado, meteoros surgindo e descendo com velocidade crescente, detecção de colisão, sistema de 3 vidas, pontuação por tempo sobrevivido, tela de Game Over e leitura e gravação do recorde em arquivo.
 
 ## 15. Possíveis melhorias, caso haja tempo
 
@@ -281,6 +294,6 @@ Exemplos:
 
 Melhorias possíveis:
 
-- Melhoria 1:
-- Melhoria 2:
-- Melhoria 3:
+- Melhoria 1: Tela inicial com título e instrução para começar.
+- Melhoria 2: Sons de colisão e música de fundo.
+- Melhoria 3: Item de bônus coletável com efeito visual.
