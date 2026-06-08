@@ -1,31 +1,62 @@
-from src.funcoes import calcular_pontos, jogador_perdeu, limitar_valor
+import os
+import pytest
+from src.utils import verificar_colisao, ler_recorde, salvar_recorde, calcular_pontuacao
+from src.config import PONTOS_POR_SEGUNDO
+
+ARQUIVO_TESTE = "data/recorde_teste.txt"
 
 
-def test_calcular_pontos():
-    """Deve somar corretamente os pontos atuais com os pontos ganhos."""
-    assert calcular_pontos(10, 5) == 15
+def setup_function():
+    if os.path.exists(ARQUIVO_TESTE):
+        os.remove(ARQUIVO_TESTE)
 
 
-def test_jogador_perdeu_com_zero_vidas():
-    """Deve indicar derrota quando o total de vidas chega a zero."""
-    assert jogador_perdeu(0) is True
+def test_colisao_detectada():
+    assert verificar_colisao(0, 0, 50, 50, 25, 25, 50, 50) is True
 
 
-def test_jogador_nao_perdeu_com_vidas():
-    """Nao deve indicar derrota quando o jogador ainda tem vidas."""
-    assert jogador_perdeu(3) is False
+def test_sem_colisao_horizontal():
+    assert verificar_colisao(0, 0, 50, 50, 100, 0, 50, 50) is False
 
 
-def test_limitar_valor_abaixo_do_minimo():
-    """Deve retornar o limite minimo quando o valor informado for menor."""
-    assert limitar_valor(-5, 0, 100) == 0
+def test_sem_colisao_vertical():
+    assert verificar_colisao(0, 0, 50, 50, 0, 100, 50, 50) is False
 
 
-def test_limitar_valor_acima_do_maximo():
-    """Deve retornar o limite maximo quando o valor informado for maior."""
-    assert limitar_valor(150, 0, 100) == 100
+def test_colisao_na_borda():
+    assert verificar_colisao(0, 0, 50, 50, 50, 0, 50, 50) is False
 
 
-def test_limitar_valor_dentro_do_intervalo():
-    """Deve manter o valor original quando ele ja estiver no intervalo."""
-    assert limitar_valor(50, 0, 100) == 50
+def test_pontuacao_incrementa():
+    assert calcular_pontuacao(5, PONTOS_POR_SEGUNDO) == 5 * PONTOS_POR_SEGUNDO
+
+
+def test_pontuacao_zero():
+    assert calcular_pontuacao(0, PONTOS_POR_SEGUNDO) == 0
+
+
+def test_leitura_recorde_arquivo_inexistente(monkeypatch):
+    monkeypatch.setattr("src.utils.ARQUIVO_RECORDE", ARQUIVO_TESTE)
+    assert ler_recorde() == 0
+
+
+def test_gravacao_e_leitura_recorde(monkeypatch):
+    monkeypatch.setattr("src.utils.ARQUIVO_RECORDE", ARQUIVO_TESTE)
+    salvar_recorde(500)
+    assert ler_recorde() == 500
+
+
+def test_recorde_atualizado_quando_maior(monkeypatch):
+    monkeypatch.setattr("src.utils.ARQUIVO_RECORDE", ARQUIVO_TESTE)
+    salvar_recorde(300)
+    resultado = salvar_recorde(700)
+    assert resultado is True
+    assert ler_recorde() == 700
+
+
+def test_recorde_nao_atualizado_quando_menor(monkeypatch):
+    monkeypatch.setattr("src.utils.ARQUIVO_RECORDE", ARQUIVO_TESTE)
+    salvar_recorde(800)
+    resultado = salvar_recorde(200)
+    assert resultado is False
+    assert ler_recorde() == 800
