@@ -1,19 +1,28 @@
-def salvar_recorde(caminho_arquivo, pontuacao):
-    """Salva a pontuação recorde em arquivo texto."""
-    with open(caminho_arquivo, "w", encoding="utf-8") as arquivo:
-        arquivo.write(str(pontuacao))
+import os
+from src.config import ARQUIVO_RECORDE
 
 
-def carregar_recorde(caminho_arquivo):
-    """Carrega o recorde salvo; retorna 0 se não existir valor válido."""
+def ler_recorde():
+    """
+    Le o recorde salvo em arquivo.
+    Retorna 0 se o arquivo nao existir ou estiver corrompido.
+    """
     try:
-        with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
-            conteudo = arquivo.read().strip()
-
-            if conteudo == "":
-                return 0
-
-            return int(conteudo)
-
-    except FileNotFoundError:
+        with open(ARQUIVO_RECORDE, "r") as f:
+            return int(f.read().strip())
+    except (FileNotFoundError, ValueError):
         return 0
+
+
+def salvar_recorde(pontuacao):
+    """
+    Salva a pontuacao como novo recorde, somente se for maior que o atual.
+    Retorna True se o recorde foi atualizado, False caso contrario.
+    """
+    recorde_atual = ler_recorde()
+    if pontuacao > recorde_atual:
+        os.makedirs(os.path.dirname(ARQUIVO_RECORDE), exist_ok=True)
+        with open(ARQUIVO_RECORDE, "w") as f:
+            f.write(str(pontuacao))
+        return True
+    return False
